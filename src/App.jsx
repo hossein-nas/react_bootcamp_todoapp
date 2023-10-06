@@ -1,22 +1,41 @@
-import { useState } from 'react'
 import './App.css'
-import TodoList from './components/TodoList/TodoList'
-import AddNewTodo from './components/AddNewTodo/AddNewTodo'
-import FilterTodoList from './components/FilterTodoList/FilterTodoList'
 import AppDataProvider from './components/AppDataProvider'
+import {
+  createBrowserRouter,
+  RouterProvider
+} from 'react-router-dom'
+import TodoApp from './pages/TodoApp'
+import RootLayout from './layouts/RootLayout'
+import Login from './pages/Login'
+
+
+const routes = createBrowserRouter([
+  {
+    path: '/',
+    element: <RootLayout />,
+    children: [
+      {
+        path: 'todo',
+        element: <TodoApp />
+      },
+      {
+        path: 'login',
+        element: <Login />
+      }
+    ]
+  },
+  {
+    path: '/auth',
+    element: <div> Auth Layout </div>,
+    children: [
+    ]
+  }
+])
 
 function App() {
   return (
     <AppDataProvider>
-      <div className='container mx-auto'>
-        <AddNewTodo />
-        <FilterTodoList />
-
-        <div className="pt-6">
-          <TodoList />
-        </div>
-
-      </div>
+      <RouterProvider router={routes}></RouterProvider>
     </AppDataProvider>
   )
 }
