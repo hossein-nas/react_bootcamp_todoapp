@@ -1,18 +1,21 @@
-import React, { useContext, useRef, useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useRef } from 'react'
 import SearchInput from '../SearchInput/SearchInput'
 import AddButton from '../AddButton/AddButton'
-import { AppData } from '../AppDataProvider'
+import { useDispatch, useSelector } from 'react-redux'
+import { addTodo, setTodoText } from '../../store/todosSlice'
 
 const AddNewTodo = props => {
+
+    const todoText = useSelector((state) => state.todos.todoText)
+    const dispatch = useDispatch();
+
     const inputRef = useRef(null);
 
-    const { addNewTodo, todoText, setTodoText } = useContext(AppData)
 
 
     const handleAddNewItem = () => {
         if (todoText.length >= 3) {
-            addNewTodo(todoText)
+            dispatch(addTodo({ text: todoText }))
 
             inputRef.current.focus();
         }
@@ -20,7 +23,7 @@ const AddNewTodo = props => {
 
     return (
         <div className='flex pt-6'>
-            <SearchInput onEnterPressed={handleAddNewItem} ref={inputRef} text={todoText} setText={setTodoText} className="flex-grow rounded-l-lg rounded-tr-none rounded-br-none" />
+            <SearchInput onEnterPressed={handleAddNewItem} ref={inputRef} text={todoText} setText={(value) => dispatch(setTodoText({ text: value }))} className="flex-grow rounded-l-lg rounded-tr-none rounded-br-none" />
             <AddButton className='rounded-r-lg rounded-tl-none rounded-bl-none' onClick={handleAddNewItem} />
         </div>
     )

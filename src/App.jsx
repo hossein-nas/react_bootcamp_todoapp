@@ -8,6 +8,8 @@ import TodoApp from './pages/TodoApp'
 import RootLayout from './layouts/RootLayout'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import store from './store'
+import { Provider } from 'react-redux'
 
 
 const routes = createBrowserRouter([
@@ -40,7 +42,9 @@ const routes = createBrowserRouter([
 function App() {
   return (
     <AppDataProvider>
-      <RouterProvider router={routes}></RouterProvider>
+      <Provider store={store}>
+        <RouterProvider router={routes}></RouterProvider>
+      </Provider>
     </AppDataProvider>
   )
 }
